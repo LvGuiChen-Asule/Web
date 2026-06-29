@@ -50,30 +50,6 @@
 - **状态管理**：Pinia 3.0（配合持久化插件实现 Token 存储）
 - **工具库**：Axios（拦截器实现 Token 自动续期）、ECharts 6.0（大屏）、@zxing/browser（扫码）
 
-
-## 📂 项目结构（核心模块）
-visitor/
-├── frontend/ # Vue3 前端工程
-│ ├── src/
-│ │ ├── api/ # API 接口封装（含 Token 刷新拦截器）
-│ │ ├── components/ # 通用组件（AiRiskTag 风险标签）
-│ │ ├── views/
-│ │ │ ├── auth/ # 登录/注册/忘记密码
-│ │ │ ├── appointments/ # 预约管理（列表/日历视图）
-│ │ │ ├── admin/ # 管理员后台（用户/配置/统计）
-│ │ │ └── gate/ # 门岗工作台（扫码核验）
-│ │ └── store/ # Pinia 状态管理（用户/路由）
-├── src/main/java/com/campus/visitor/
-│ ├── config/ # 配置类（Security、Redis、Async）
-│ ├── modules/
-│ │ ├── system/ # 系统模块（认证、用户、角色、审计日志）
-│ │ └── visitor/ # 访客业务模块（预约、审批、二维码、门岗、AI预审）
-│ ├── common/ # 通用组件（统一返回、异常处理、注解）
-│ └── VisitorApplication.java
-└── pom.xml
-
----
-
 ## 🚀 快速开始（本地运行）
 
 ### 环境要求
@@ -81,19 +57,3 @@ visitor/
 - MySQL 8.0+
 - Redis 7.0+
 - Node.js 18+ & npm 9+
-
-### 1. 克隆项目
-```bash
-git clone git@github.com:LvGuiChen-Asule/Web.git
-cd Web
-# 修改 application-mysql.yml 中的数据库连接（或用环境变量）
-# 设置环境变量（或直接在 IDEA 中配置）：
-# AI_API_KEY=sk-xxxxx, JWT_SECRET=your_secret_key
-
-mvn clean install
-mvn spring-boot:run
-# 访问 Swagger: http://localhost:8080
-cd frontend
-npm install
-npm run dev
-# 访问: http://localhost:5173
