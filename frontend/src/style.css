@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family:
+    'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica,
+    Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --el-color-primary: #2A59C2;
+  --el-color-success: #00B42A;
+  --el-color-warning: #FF7D00;
+  --el-color-danger: #F53F3F;
+
+  --app-primary: #2A59C2;
+  --app-primary-bg: #E8F1FF;
+  --app-accent: #FF7D00;
+  --app-bg: #F5F7FA;
+  --app-card: #FFFFFF;
+  --app-header-bg: #FAFBFC;
+  --app-border: #E5E6EB;
+  --app-text-1: #1D2129;
+  --app-text-2: #4E5969;
+  --app-text-3: #86909C;
+  --app-text-disabled: #C9CDD4;
+  
+  --bg-color-base: var(--app-bg);
+  --text-color-primary: var(--app-text-1);
+  --text-color-regular: var(--app-text-2);
+  --text-color-secondary: var(--app-text-3);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color-base);
+  background-image: url('/bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: var(--text-color-primary);
+}
+
+/* 全局过渡动画 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* 按钮交互 */
+.el-button {
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+.el-button:active {
+  transform: scale(0.98);
+}
+.el-button--primary:hover {
+  background-color: var(--app-primary);
+  filter: brightness(0.96);
+  box-shadow: 0 2px 4px rgba(42, 89, 194, 0.2);
+}
+.el-button--default:hover {
+  background-color: var(--app-header-bg);
+}
+
+/* 卡片样式优化 */
+.el-card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.el-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 输入框聚焦效果 */
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset !important;
+}

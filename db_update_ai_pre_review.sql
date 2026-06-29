@@ -1,0 +1,2 @@
+-- 添加AI风险等级字段到预约表
+ALTER TABLE appointment ADD COLUMN ai_risk_level VARCHAR(20) DEFAULT NULL COMMENT 'AI风险等级：HIGH_RISK, NORMAL';

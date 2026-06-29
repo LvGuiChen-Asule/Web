@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campus.visitor.modules.visitor.mapper.VisAppointmentMapper">
+
+    <select id="countConflictingAppointments" resultType="int">
+        SELECT COUNT(1) FROM appointment
+        WHERE visited_user_id = #{hostId}
+        AND status IN ('PENDING','FIRST_APPROVED','APPROVED')
+        AND (
+            (start_time &lt; #{endTime} AND end_time &gt; #{startTime})
+        )
+        <if test="excludeId != null">
+            AND id != #{excludeId}
+        </if>
+    </select>
+
+    <select id="countVisitorConflictingAppointments" resultType="int">
+        SELECT COUNT(1) FROM appointment
+        WHERE status IN ('PENDING','FIRST_APPROVED','APPROVED')
+        AND (
+            (start_time &lt; #{endTime} AND end_time &gt; #{startTime})
+        )
+        AND (
+            (#{visitorId} IS NOT NULL AND visitor_id = #{visitorId})
+            OR (#{visitorIdCard} IS NOT NULL AND #{visitorIdCard} != '' AND visitor_id_card = #{visitorIdCard})
+        )
+        <if test="excludeId != null">
+            AND id != #{excludeId}
+        </if>
+    </select>
+
+    <select id="countDailyAppointments" resultType="int">
+        SELECT COUNT(1) FROM appointment
+        WHERE status IN ('PENDING','FIRST_APPROVED','APPROVED')
+        AND start_time &gt;= #{dayStart}
+        AND start_time &lt; #{dayEnd}
+        AND (
+            (#{visitorId} IS NOT NULL AND visitor_id = #{visitorId})
+            OR (#{visitorIdCard} IS NOT NULL AND #{visitorIdCard} != '' AND visitor_id_card = #{visitorIdCard})
+        )
+    </select>
+
+    <select id="selectVisitorTrend" resultType="com.campus.visitor.modules.visitor.dto.stats.VisitorCountStats">
+        SELECT DATE_FORMAT(start_time, '%Y-%m-%d') as date, COUNT(*) as count
+        FROM appointment
+        WHERE status IN ('APPROVED','CHECKED_IN','CHECKED_OUT')
+        AND start_time BETWEEN #{startDate} AND #{endDate}
+        GROUP BY date
+        ORDER BY date
+    </select>
+
+    <select id="selectHostRanking" resultType="com.campus.visitor.modules.visitor.dto.stats.HostRankingStats">
+        SELECT u.real_name as hostName, u.dept_id as deptId, COUNT(a.id) as visitCount
+        FROM appointment a
+        LEFT JOIN sys_user u ON a.visited_user_id = u.id
+        WHERE a.status IN ('APPROVED','CHECKED_IN','CHECKED_OUT')
+        GROUP BY a.visited_user_id
+        ORDER BY visitCount DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>
